@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,25 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// RPG inspired colors
+				xp: {
+					primary: '#FFD700',
+					secondary: '#FFA500',
+					background: '#2A1810'
+				},
+				area: {
+					wellbeing: '#4ADE80',
+					business: '#3B82F6', 
+					mastery: '#A855F7'
+				},
+				attribute: {
+					resilience: '#EF4444',
+					communication: '#06B6D4',
+					selfEfficacy: '#F59E0B',
+					selfKnowledge: '#8B5CF6',
+					strength: '#DC2626',
+					wisdom: '#7C3AED'
 				}
 			},
 			borderRadius: {
@@ -84,11 +104,27 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'xp-fill': {
+					'0%': { width: '0%' },
+					'100%': { width: 'var(--xp-width)' }
+				},
+				'level-up': {
+					'0%': { transform: 'scale(1) rotate(0deg)', opacity: '1' },
+					'50%': { transform: 'scale(1.2) rotate(180deg)', opacity: '0.8' },
+					'100%': { transform: 'scale(1) rotate(360deg)', opacity: '1' }
+				},
+				'glow': {
+					'0%, 100%': { boxShadow: '0 0 5px rgba(255, 215, 0, 0.5)' },
+					'50%': { boxShadow: '0 0 20px rgba(255, 215, 0, 0.8)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'xp-fill': 'xp-fill 1s ease-out',
+				'level-up': 'level-up 0.6s ease-in-out',
+				'glow': 'glow 2s ease-in-out infinite'
 			}
 		}
 	},
