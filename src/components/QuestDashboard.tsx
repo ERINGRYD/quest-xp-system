@@ -12,8 +12,12 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Zap, Target, Sword, Compass, Map, Scroll } from 'lucide-react';
+import { Zap, Target, Sword, Compass, Map, Scroll, Lightbulb, Calendar } from 'lucide-react';
 import { UserMood, HeroPhase, DailySymbolicMessage, EmotionalClimate } from '@/types/quest';
+import { AdaptiveSuggestions } from './AdaptiveSuggestions';
+import { CyclePersonalization } from './CyclePersonalization';
+import { analyzeUserPatterns, generateAdaptiveSuggestions } from '@/utils/adaptiveIntelligence';
+import { AdaptiveSuggestion, UserPattern, PersonalCycle } from '@/types/quest';
 
 export const QuestDashboard = () => {
   const [tasks, setTasks] = useState(quickTasks);
@@ -52,6 +56,12 @@ export const QuestDashboard = () => {
       currentMood
     )
   );
+
+  const [userPatterns, setUserPatterns] = useState<UserPattern>(() => 
+    analyzeUserPatterns(quickTasks, [], playerAttributes)
+  );
+  const [adaptiveSuggestions, setAdaptiveSuggestions] = useState<AdaptiveSuggestion[]>([]);
+  const [currentCycle, setCurrentCycle] = useState<PersonalCycle | undefined>();
 
   const handleTaskComplete = (taskId: string) => {
     const task = tasks.find(t => t.id === taskId);
@@ -117,9 +127,40 @@ export const QuestDashboard = () => {
     ]);
   };
 
+  const handleAcceptSuggestion = (suggestionId: string) => {
+    setAdaptiveSuggestions(prev => prev.map(s => 
+      s.id === suggestionId ? { ...s, status: 'accepted' as const } : s
+    ));
+    console.log(`✅ Sugestão aceita: ${suggestionId}`);
+  };
+
+  const handleDismissSuggestion = (suggestionId: string) => {
+    setAdaptiveSuggestions(prev => prev.map(s => 
+      s.id === suggestionId ? { ...s, status: 'dismissed' as const } : s
+    ));
+    console.log(`❌ Sugestão dispensada: ${suggestionId}`);
+  };
+
+  const handleCreateCycle = (cycle: PersonalCycle) => {
+    setCurrentCycle(cycle);
+    console.log(`🔄 Novo ciclo criado: ${cycle.symbolicName}`);
+  };
+
+  const handleUpdateCycle = (cycle: PersonalCycle) => {
+    setCurrentCycle(cycle);
+    console.log(`📝 Ciclo atualizado: ${cycle.symbolicName}`);
+  };
+
   const totalXP = playerAttributes.reduce((sum, attr) => sum + attr.currentXP, 0);
   const averageLevel = Math.round(playerAttributes.reduce((sum, attr) => sum + attr.level, 0) / playerAttributes.length);
   const completedTasks = tasks.filter(t => t.completed).length;
+
+  useState(() => {
+    const patterns = analyzeUserPatterns(tasks, [], playerAttributes);
+    setUserPatterns(patterns);
+    const suggestions = generateAdaptiveSuggestions(patterns, playerAttributes, []);
+    setAdaptiveSuggestions(suggestions);
+  }, [tasks, playerAttributes]);
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -150,13 +191,15 @@ export const QuestDashboard = () => {
         </div>
 
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-8">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="climate">Clima Interior</TabsTrigger>
             <TabsTrigger value="hero-journey">Jornada do Herói</TabsTrigger>
             <TabsTrigger value="attributes">Atributos</TabsTrigger>
             <TabsTrigger value="quick-tasks">Tarefas Rápidas</TabsTrigger>
             <TabsTrigger value="areas">Áreas & Jornadas</TabsTrigger>
+            <TabsTrigger value="adaptive">IA Adaptativa</TabsTrigger>
+            <TabsTrigger value="cycles">Ciclos Pessoais</TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-6">
@@ -291,6 +334,91 @@ export const QuestDashboard = () => {
                 />
               ))}
             </div>
+          </TabsContent>
+
+          <TabsContent value="adaptive" className="space-y-6">
+            <Card className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Lightbulb className="w-5 h-5 text-primary" />
+                <h2 className="text-xl font-semibold">IA Adaptativa</h2>
+                <Badge variant="secondary">
+                  {adaptiveSuggestions.filter(s => s.status === 'pending').length} sugestões
+                </Badge>
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Sugestões personalizadas baseadas em seus padrões de progresso
+              </p>
+              
+              {/* User Patterns Summary */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <Card className="p-4">
+                  <h3 className="font-medium mb-2">Áreas Fortes</h3>
+                  <div className="space-y-1">
+                    {userPatterns.strongAreas.length > 0 ? (
+                      userPatterns.strongAreas.map(areaId => {
+                        const attr = playerAttributes.find(a => a.id === areaId);
+                        return (
+                          <Badge key={areaId} variant="outline" className="text-xs">
+                            {attr?.name || areaId}
+                          </Badge>
+                        );
+                      })
+                    ) : (
+                      <p className="text-xs text-muted-foreground">Continue progredindo!</p>
+                    )}
+                  </div>
+                </Card>
+
+                <Card className="p-4">
+                  <h3 className="font-medium mb-2">Áreas de Melhoria</h3>
+                  <div className="space-y-1">
+                    {userPatterns.strugglingAreas.length > 0 ? (
+                      userPatterns.strugglingAreas.map(areaId => {
+                        const attr = playerAttributes.find(a => a.id === areaId);
+                        return (
+                          <Badge key={areaId} variant="outline" className="text-xs">
+                            {attr?.name || areaId}
+                          </Badge>
+                        );
+                      })
+                    ) : (
+                      <p className="text-xs text-muted-foreground">Ótimo equilíbrio!</p>
+                    )}
+                  </div>
+                </Card>
+
+                <Card className="p-4">
+                  <h3 className="font-medium mb-2">XP Médio Diário</h3>
+                  <p className="text-2xl font-bold text-primary">
+                    {Math.round(userPatterns.averageXPPerDay)}
+                  </p>
+                </Card>
+              </div>
+
+              <AdaptiveSuggestions
+                suggestions={adaptiveSuggestions}
+                onAcceptSuggestion={handleAcceptSuggestion}
+                onDismissSuggestion={handleDismissSuggestion}
+              />
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="cycles" className="space-y-6">
+            <Card className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Calendar className="w-5 h-5 text-primary" />
+                <h2 className="text-xl font-semibold">Ciclos Pessoais</h2>
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Personalize suas fases e ciclos com nomes simbólicos que ressoem com você
+              </p>
+
+              <CyclePersonalization
+                currentCycle={currentCycle}
+                onCreateCycle={handleCreateCycle}
+                onUpdateCycle={handleUpdateCycle}
+              />
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

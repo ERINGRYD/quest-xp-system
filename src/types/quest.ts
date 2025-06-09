@@ -1,4 +1,3 @@
-
 export interface Attribute {
   id: string;
   name: string;
@@ -156,4 +155,58 @@ export interface UserMood {
   date: Date;
   level: number; // 1-10 scale
   notes?: string;
+}
+
+export interface AdaptiveSuggestion {
+  id: string;
+  type: 'new-goal' | 'habit-simplification' | 'habit-alternative' | 'habit-archive';
+  title: string;
+  symbolicName: string;
+  description: string;
+  purpose: string;
+  reasoning: string;
+  confidence: number; // 0-100
+  initialTasks?: Task[];
+  originalHabitId?: string;
+  simplifiedVersion?: Habit;
+  alternativeVersion?: Habit;
+  createdAt: Date;
+  status: 'pending' | 'accepted' | 'dismissed';
+}
+
+export interface PersonalCycle {
+  id: string;
+  name: string;
+  symbolicName: string;
+  startDate: Date;
+  endDate: Date;
+  dominantEmotion: string;
+  journeyStage: HeroStage;
+  intention: string;
+  color: string;
+  icon: string;
+  description: string;
+  active: boolean;
+}
+
+export interface UserPattern {
+  completionRateByAttribute: Record<string, number>;
+  habitConsistency: Record<string, number>;
+  preferredTaskTypes: string[];
+  peakPerformanceTimes: string[];
+  strugglingAreas: string[];
+  strongAreas: string[];
+  averageXPPerDay: number;
+  longestStreak: number;
+}
+
+export interface CycleTemplate {
+  id: string;
+  name: string;
+  symbolicNames: string[];
+  description: string;
+  dominantEmotions: string[];
+  suggestedDuration: number; // in days
+  icon: string;
+  color: string;
 }
