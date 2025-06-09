@@ -67,6 +67,7 @@ export interface Journey {
   goal: Goal;
   heroStage: HeroStage;
   progress: number;
+  phases: HeroPhase[];
 }
 
 export interface Theme {
@@ -105,3 +106,54 @@ export type HeroStage =
   | 'road-back'
   | 'resurrection'
   | 'return-elixir';
+
+export interface HeroPhase {
+  id: string;
+  name: string;
+  stage: HeroStage;
+  description: string;
+  symbolicMeaning: string;
+  miniTask: Task;
+  reflection: string;
+  ritual: string;
+  completed: boolean;
+  unlockedAt?: Date;
+}
+
+export type EmotionalClimate = 
+  | 'clear-sky'      // ☀️ Céu Claro
+  | 'inner-rain'     // 🌧️ Chuva Interior  
+  | 'mind-storm'     // 🌪️ Tempestade Mental
+  | 'snow'           // ❄️ Neve
+  | 'fog'            // 🌫️ Nevoeiro
+  | 'scorching-sun'  // 🔥 Sol Escaldante
+  | 'alignment';     // 🌈 Alinhamento
+
+export interface ClimateData {
+  climate: EmotionalClimate;
+  icon: string;
+  name: string;
+  message: string;
+  idealTaskTypes: string[];
+  color: string;
+}
+
+export interface DailySymbolicMessage {
+  id: string;
+  date: Date;
+  climate: EmotionalClimate;
+  message: string;
+  tone: 'motivational' | 'reflective' | 'challenging' | 'celebratory';
+  basedOn: {
+    recentXP: number;
+    activeHabits: number;
+    negligectedTasks: number;
+    mood: number; // 1-10 scale
+  };
+}
+
+export interface UserMood {
+  date: Date;
+  level: number; // 1-10 scale
+  notes?: string;
+}
