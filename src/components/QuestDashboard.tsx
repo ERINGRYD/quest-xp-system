@@ -1,19 +1,23 @@
+
 import { useState, useEffect } from 'react';
 import { areas, attributes, quickTasks } from '@/data/questData';
 import { createHeroJourney } from '@/data/heroJourney';
 import { calculateEmotionalClimate, generateSymbolicMessage } from '@/utils/emotionalClimate';
 import { AreaOverview } from './AreaOverview';
+import { AreaJourneyView } from './AreaJourneyView';
 import { AttributeCard } from './AttributeCard';
 import { QuickTaskCard } from './QuickTaskCard';
 import { EmotionalClimateCard } from './EmotionalClimate';
 import { HeroJourneyCard } from './HeroJourneyCard';
 import { DailySymbolicMessageCard } from './DailySymbolicMessage';
+import { AddTaskDialog } from './AddTaskDialog';
+import { AddAttributeDialog } from './AddAttributeDialog';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Zap, Target, Sword, Compass, Map, Scroll, Lightbulb, Calendar } from 'lucide-react';
-import { UserMood, HeroPhase, DailySymbolicMessage, EmotionalClimate } from '@/types/quest';
+import { UserMood, HeroPhase, DailySymbolicMessage, EmotionalClimate, Task, Attribute, Area } from '@/types/quest';
 import { AdaptiveSuggestions } from './AdaptiveSuggestions';
 import { CyclePersonalization } from './CyclePersonalization';
 import { analyzeUserPatterns, generateAdaptiveSuggestions } from '@/utils/adaptiveIntelligence';
@@ -22,6 +26,7 @@ import { AdaptiveSuggestion, UserPattern, PersonalCycle } from '@/types/quest';
 export const QuestDashboard = () => {
   const [tasks, setTasks] = useState(quickTasks);
   const [playerAttributes, setPlayerAttributes] = useState(attributes);
+  const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   const [currentMood, setCurrentMood] = useState<number>(7);
   const [recentMoods, setRecentMoods] = useState<UserMood[]>([
     { date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), level: 6 },
@@ -151,6 +156,34 @@ export const QuestDashboard = () => {
     console.log(`📝 Ciclo atualizado: ${cycle.symbolicName}`);
   };
 
+  const handleAddTask = (newTask: Omit<Task, 'id' | 'completed'>) => {
+    const task: Task = {
+      ...newTask,
+      id: `task-${Date.now()}`,
+      completed: false
+    };
+    setTasks(prev => [...prev, task]);
+    console.log(`✨ Nova tarefa criada: ${task.name}`);
+  };
+
+  const handleAddAttribute = (newAttribute: Omit<Attribute, 'id'>) => {
+    const attribute: Attribute = {
+      ...newAttribute,
+      id: `attr-${Date.now()}`
+    };
+    setPlayerAttributes(prev => [...prev, attribute]);
+    console.log(`🆕 Novo atributo criado: ${attribute.name}`);
+  };
+
+  const handleAreaClick = (area: Area) => {
+    setSelectedArea(area);
+  };
+
+  const handleStartJourney = (themeId: string) => {
+    console.log(`🚀 Iniciando jornada: ${themeId}`);
+    // Here you could navigate to a detailed journey view
+  };
+
   const totalXP = playerAttributes.reduce((sum, attr) => sum + attr.currentXP, 0);
   const averageLevel = Math.round(playerAttributes.reduce((sum, attr) => sum + attr.level, 0) / playerAttributes.length);
   const completedTasks = tasks.filter(t => t.completed).length;
@@ -161,6 +194,21 @@ export const QuestDashboard = () => {
     const suggestions = generateAdaptiveSuggestions(patterns, playerAttributes, []);
     setAdaptiveSuggestions(suggestions);
   }, [tasks, playerAttributes]);
+
+  // If an area is selected, show the journey view
+  if (selectedArea) {
+    return (
+      <div className="min-h-screen bg-background p-6">
+        <div className="max-w-7xl mx-auto">
+          <AreaJourneyView
+            area={selectedArea}
+            onBack={() => setSelectedArea(null)}
+            onStartJourney={handleStartJourney}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -300,6 +348,10 @@ export const QuestDashboard = () => {
           </TabsContent>
 
           <TabsContent value="attributes" className="space-y-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-semibold">Seus Atributos</h2>
+              <AddAttributeDialog onAddAttribute={handleAddAttribute} />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {playerAttributes.map((attribute) => (
                 <AttributeCard key={attribute.id} attribute={attribute} />
@@ -308,6 +360,10 @@ export const QuestDashboard = () => {
           </TabsContent>
 
           <TabsContent value="quick-tasks" className="space-y-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-semibold">Tarefas Rápidas</h2>
+              <AddTaskDialog attributes={playerAttributes} onAddTask={handleAddTask} />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {tasks.map((task) => {
                 const attribute = playerAttributes.find(a => a.id === task.attributeId);
@@ -330,7 +386,7 @@ export const QuestDashboard = () => {
                 <AreaOverview
                   key={area.id}
                   area={area}
-                  onClick={() => console.log(`Explorando ${area.name}`)}
+                  onClick={() => handleAreaClick(area)}
                 />
               ))}
             </div>
