@@ -155,7 +155,7 @@ export const QuestDashboard = () => {
   const averageLevel = Math.round(playerAttributes.reduce((sum, attr) => sum + attr.level, 0) / playerAttributes.length);
   const completedTasks = tasks.filter(t => t.completed).length;
 
-  useState(() => {
+  useEffect(() => {
     const patterns = analyzeUserPatterns(tasks, [], playerAttributes);
     setUserPatterns(patterns);
     const suggestions = generateAdaptiveSuggestions(patterns, playerAttributes, []);
