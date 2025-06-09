@@ -174,6 +174,7 @@ export const areas: Area[] = [
               description: 'Transforme seu corpo em um templo de força',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'fitness-goal',
                 name: 'Corpo de Guerreiro',
@@ -195,6 +196,7 @@ export const areas: Area[] = [
               description: 'Transforme alimentos em energia vital',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'nutrition-goal',
                 name: 'Nutrição Equilibrada',
@@ -216,6 +218,7 @@ export const areas: Area[] = [
               description: 'Alcançar o sono perfeito e restaurador',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'sleep-goal',
                 name: 'Sono Reparador',
@@ -245,6 +248,7 @@ export const areas: Area[] = [
               description: 'Torne-se senhor de suas emoções',
               heroStage: 'call-to-adventure',
               progress: 15,
+              phases: [],
               goal: {
                 id: 'emotional-goal',
                 name: 'Equilíbrio Emocional',
@@ -266,6 +270,7 @@ export const areas: Area[] = [
               description: 'Encontre paz no meio do caos',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'stress-goal',
                 name: 'Calma Interior',
@@ -287,6 +292,7 @@ export const areas: Area[] = [
               description: 'Viva plenamente cada momento',
               heroStage: 'meeting-mentor',
               progress: 30,
+              phases: [],
               goal: {
                 id: 'mindfulness-goal',
                 name: 'Presença Plena',
@@ -316,6 +322,7 @@ export const areas: Area[] = [
               description: 'Torne-se um mestre da palavra e escuta',
               heroStage: 'crossing-threshold',
               progress: 25,
+              phases: [],
               goal: {
                 id: 'communication-goal',
                 name: 'Comunicação Efetiva',
@@ -337,6 +344,7 @@ export const areas: Area[] = [
               description: 'Desenvolva empatia profunda',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'empathy-goal',
                 name: 'Conexão Empática',
@@ -358,6 +366,7 @@ export const areas: Area[] = [
               description: 'Irradie confiança e autenticidade',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'social-goal',
                 name: 'Presença Social',
@@ -396,6 +405,7 @@ export const areas: Area[] = [
               description: 'Torne-se um arquiteto de sucessos',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'strategy-goal',
                 name: 'Visão Estratégica',
@@ -417,6 +427,7 @@ export const areas: Area[] = [
               description: 'Transforme ideias em realidade',
               heroStage: 'call-to-adventure',
               progress: 10,
+              phases: [],
               goal: {
                 id: 'innovation-goal',
                 name: 'Inovação Constante',
@@ -438,6 +449,7 @@ export const areas: Area[] = [
               description: 'Preveja o futuro dos negócios',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'market-goal',
                 name: 'Inteligência de Mercado',
@@ -467,6 +479,7 @@ export const areas: Area[] = [
               description: 'Forme equipes extraordinárias',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'team-goal',
                 name: 'Liderança de Equipe',
@@ -488,6 +501,7 @@ export const areas: Area[] = [
               description: 'Torne-se um decisor excepcional',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'decision-goal',
                 name: 'Decisões Sábias',
@@ -509,6 +523,7 @@ export const areas: Area[] = [
               description: 'Influencie positivamente o mundo',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'influence-goal',
                 name: 'Influência Positiva',
@@ -538,6 +553,7 @@ export const areas: Area[] = [
               description: 'Transforme dinheiro em mais dinheiro',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'investment-goal',
                 name: 'Crescimento Patrimonial',
@@ -559,6 +575,7 @@ export const areas: Area[] = [
               description: 'Proteja e organize sua riqueza',
               heroStage: 'call-to-adventure',
               progress: 20,
+              phases: [],
               goal: {
                 id: 'budget-goal',
                 name: 'Controle Financeiro',
@@ -580,6 +597,7 @@ export const areas: Area[] = [
               description: 'Construa rios de renda passiva',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'passive-goal',
                 name: 'Independência Financeira',
@@ -618,6 +636,7 @@ export const areas: Area[] = [
               description: 'Torne-se mestre das ferramentas',
               heroStage: 'tests-allies-enemies',
               progress: 40,
+              phases: [],
               goal: {
                 id: 'technical-goal',
                 name: 'Excelência Técnica',
@@ -639,6 +658,7 @@ export const areas: Area[] = [
               description: 'Expresse sua alma através da arte',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'creative-goal',
                 name: 'Criatividade Florescente',
@@ -660,6 +680,7 @@ export const areas: Area[] = [
               description: 'Transforme problemas em oportunidades',
               heroStage: 'meeting-mentor',
               progress: 25,
+              phases: [],
               goal: {
                 id: 'problem-goal',
                 name: 'Pensamento Analítico',
@@ -689,6 +710,7 @@ export const areas: Area[] = [
               description: 'Desbloqueie o poder total da memória',
               heroStage: 'approach-ordeal',
               progress: 60,
+              phases: [],
               goal: {
                 id: 'memory-goal',
                 name: 'Memória Excepcional',
@@ -710,6 +732,7 @@ export const areas: Area[] = [
               description: 'Aprenda qualquer coisa rapidamente',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'speed-goal',
                 name: 'Aprendizado Eficiente',
@@ -731,6 +754,7 @@ export const areas: Area[] = [
               description: 'Descubra a verdade em qualquer situação',
               heroStage: 'ordinary-world',
               progress: 0,
+              phases: [],
               goal: {
                 id: 'critical-goal',
                 name: 'Análise Crítica',
@@ -760,6 +784,7 @@ export const areas: Area[] = [
               description: 'Conquiste a si mesmo primeiro',
               heroStage: 'reward',
               progress: 70,
+              phases: [],
               goal: {
                 id: 'discipline-goal',
                 name: 'Disciplina Férrea',
@@ -781,6 +806,7 @@ export const areas: Area[] = [
               description: 'Realize todos os seus objetivos',
               heroStage: 'road-back',
               progress: 80,
+              phases: [],
               goal: {
                 id: 'goal-goal',
                 name: 'Realizador de Sonhos',
@@ -802,6 +828,7 @@ export const areas: Area[] = [
               description: 'Nunca pare de evoluir',
               heroStage: 'return-elixir',
               progress: 95,
+              phases: [],
               goal: {
                 id: 'improvement-goal',
                 name: 'Evolução Constante',
