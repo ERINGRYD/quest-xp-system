@@ -115,7 +115,7 @@
   }
 
   .quest-card {
-    @apply relative overflow-hidden rounded-lg border bg-card/80 backdrop-blur-sm p-4 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-102;
+    @apply relative overflow-hidden rounded-lg border bg-card/80 backdrop-blur-sm p-4 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105;
   }
 
   .attribute-badge {
